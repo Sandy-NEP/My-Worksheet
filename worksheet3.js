@@ -1,0 +1,37 @@
+// This code prompts the user to enter a number and checks if it is even or odd
+/*let number = prompt("Enter a number:");
+number = Number(number);
+if (number % 2 === 0) {
+  console.log("Even number");
+} else {
+  console.log("Odd number");
+}*/
+
+let number = prompt("Enter a number:");
+n = Number(number);
+if(n<0){
+    alert("Negative number");
+}else if(n>0){
+    alert("Positive number");
+}else{
+    alert("Zero");
+}
+
+//output:
+// Negative number, Positive number, or Zero based on user input
+
+
+//additional code
+/*
+let name = prompt("Enter a number:");
+
+if(name==='SANDESH'){
+    alert("😲😱YOU ARE KING SANDESH");
+}else{
+alert("You are not my king");
+}
+
+
+*/
+
+
