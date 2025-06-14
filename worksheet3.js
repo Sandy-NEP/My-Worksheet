@@ -1,4 +1,5 @@
-// This code prompts the user to enter a number and checks if it is even or odd
+// Worksheet 3 - conditional statements
+
 /*let number = prompt("Enter a number:");
 number = Number(number);
 if (number % 2 === 0) {

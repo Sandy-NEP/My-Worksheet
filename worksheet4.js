@@ -1,4 +1,5 @@
-// This code prints numbers from 1 to 10 using a for loop
+//worksheet4.js loops
+
 let a=10;
 
 for(let i=1; i<=a; i++){
