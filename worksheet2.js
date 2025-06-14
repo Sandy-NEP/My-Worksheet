@@ -2,6 +2,7 @@
 
 
 //1.arithmetic operators
+console.log("Arithmetic Operators\n\n\n");
 let a = 50;
 let b = 8;
 let c = 2;
@@ -39,7 +40,7 @@ Decremented b: 7
 // This code demonstrates the use of arithmetic operators in JavaScript.
 
 // 2.Assignment Operators
-
+console.log("Assignment Operators\n\n\n");
 let x = 8;
 let y = 2;
 
@@ -80,7 +81,7 @@ console.log("\n\n\n");
 
 
 // 3.Relational Operators
-
+console.log("Relational Operators\n\n\n");
 let num1 = 10;
 let num2 = 20;
 
@@ -99,6 +100,8 @@ console.log("name1 === name2:", name1 === name2); // true
 console.log("name1 != name3:", name1 != name3); // true
 console.log("name1 !== name3:", name1 !== name2); // false
 
+
+console.log("\n\n\n");
 // output:
 // num1 < num2: true
 // num1 <= num2: true
@@ -110,3 +113,21 @@ console.log("name1 !== name3:", name1 !== name2); // false
 // name1 !== name3: false
 
 // 4.Logical Operators
+console.log("Logical Operators\n\n\n");
+
+let one = 1;
+let five = 5;
+let ten = 10;
+
+console.log("First number:", one);
+console.log("Second number:", five);
+console.log("Third number:", ten);
+console.log("The greatest number among these three is:");
+
+if (one > five && one > ten) {
+    console.log(one, "one is the largest number");
+} else if (five > one && five > ten) {
+    console.log(five, "five is the largest number");
+} else {
+    console.log(ten, "ten is the largest number");
+}
