@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Signup</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>📝 Signup</h2>
+  <!--Yo ho hamro signup form-->
+  <form id="signupForm">
+    <input type="text" id="fullname" placeholder="Full Name" required />
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="tel" id="phone" placeholder="Phone Number" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+    <button type="submit">Sign Up</button>
+  </form>
+  
+  <button id="downloadDataBtn" style="margin-top: 20px;">⬇️ Download User Data</button>
+
+  <p>Already have an account? <a href="login.html">Login here</a></p>
+
+  <script>
+
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const fullname = document.getElementById("fullname").value.trim();
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("❌ Passwords do not match!");
+        return;
+      }
+
+      // Esle user ko data localStorage ma rakcha
+      const userData = {
+        fullname,
+        username,
+        email,
+        phone,
+        password
+      };
+
+      localStorage.setItem("userData", JSON.stringify(userData));
+
+      alert("✅ Signup successful!");
+      window.location.href = "login.html";
+    });
+
+
+    // Check if user data exists in localStorage
+    if (localStorage.getItem("userData")) {
+      alert("User data already exists in localStorage.");
+    } else {
+      alert("No user data found in localStorage.");
+    }
+
+
+    // Download user data as a text file
+    document.getElementById("downloadDataBtn").addEventListener("click", function () {
+      const data = localStorage.getItem("userData");
+      if (!data) {
+        alert("No user data found in localStorage!");
+        return;
+      }
+
+      const blob = new Blob([data], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "userData.txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>

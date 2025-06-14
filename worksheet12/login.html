@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h2>🔐 Login</h2>
+  <form id="loginForm">
+    <input type="text" id="loginUsername" placeholder="Username" required />
+    <input type="password" id="loginPassword" placeholder="Password" required />
+    <button type="submit">Login</button>
+  </form>
+  <p>Don't have an account? <a href="signup.html">Signup here</a></p>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const inputUsername = document.getElementById("loginUsername").value.trim();
+      const inputPassword = document.getElementById("loginPassword").value;
+
+      const savedData = JSON.parse(localStorage.getItem("userData"));
+
+      if (savedData && inputUsername === savedData.username && inputPassword === savedData.password) {
+        alert("🎉 Login successful! Welcome, " + savedData.fullname);
+      } else {
+        alert("❌ Invalid username or password.");
+      }
+    });
+  </script>
+</body>
+</html>
