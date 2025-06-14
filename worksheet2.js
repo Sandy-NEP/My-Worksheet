@@ -131,3 +131,8 @@ if (one > five && one > ten) {
 } else {
     console.log(ten, "ten is the largest number");
 }
+// output:
+// First number: 1
+// Second number: 5
+// Third number: 10
+// The greatest number among these three is: 10 ten is the largest number
