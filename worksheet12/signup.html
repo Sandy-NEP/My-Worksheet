@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Signup</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>📝 Signup</title>
 </head>
 <body>
-  <h2>📝 Signup</h2>
-  <!--Yo ho hamro signup form-->
+      <h2>📝 Signup</h2>
+
   <form id="signupForm">
     <input type="text" id="fullname" placeholder="Full Name" required />
     <input type="text" id="username" placeholder="Username" required />
@@ -15,18 +16,18 @@
     <input type="tel" id="phone" placeholder="Phone Number" required />
     <input type="password" id="password" placeholder="Password" required />
     <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+      <p>Already have an account? <a href="login.html">Login here</a></p>
     <button type="submit">Sign Up</button>
   </form>
-  
-  <button id="downloadDataBtn" style="margin-top: 20px;">⬇️ Download User Data</button>
 
-  <p>Already have an account? <a href="login.html">Login here</a></p>
+</body>
+</html>
 
-  <script>
-
-    document.getElementById("signupForm").addEventListener("submit", function (e) {
+<script>
+    document.getElementById("signupForm").addEventListener("submit", handleSignup);
+    function handleSignup(e) {
       e.preventDefault();
-
+      
       const fullname = document.getElementById("fullname").value.trim();
       const username = document.getElementById("username").value.trim();
       const email = document.getElementById("email").value.trim();
@@ -34,12 +35,21 @@
       const password = document.getElementById("password").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
 
+      //check if the password and confirm password match or not
       if (password !== confirmPassword) {
         alert("❌ Passwords do not match!");
         return;
       }
+      // Check if the user data exist or not when user submit the form
+      const storedUser = localStorage.getItem("userData");
+      if (storedUser) {
+        const existingUser = JSON.parse(storedUser);
+        if (existingUser.username === username) {
+          alert("⚠️ Username already exists. Please log in.");
+          return;
+        }
+      }
 
-      // Esle user ko data localStorage ma rakcha
       const userData = {
         fullname,
         username,
@@ -47,40 +57,8 @@
         phone,
         password
       };
-
       localStorage.setItem("userData", JSON.stringify(userData));
-
       alert("✅ Signup successful!");
       window.location.href = "login.html";
-    });
-
-
-    // Check if user data exists in localStorage
-    if (localStorage.getItem("userData")) {
-      alert("User data already exists in localStorage.");
-    } else {
-      alert("No user data found in localStorage.");
     }
-
-
-    // Download user data as a text file
-    document.getElementById("downloadDataBtn").addEventListener("click", function () {
-      const data = localStorage.getItem("userData");
-      if (!data) {
-        alert("No user data found in localStorage!");
-        return;
-      }
-
-      const blob = new Blob([data], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "userData.txt";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-  </script>
-</body>
-</html>
+</script>
