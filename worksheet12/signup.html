@@ -1,33 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>📝 Signup</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-      <h2>📝 Signup</h2>
 
-  <form id="signupForm">
-    <input type="text" id="fullname" placeholder="Full Name" required />
-    <input type="text" id="username" placeholder="Username" required />
-    <input type="email" id="email" placeholder="Email" required />
-    <input type="tel" id="phone" placeholder="Phone Number" required />
-    <input type="password" id="password" placeholder="Password" required />
-    <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
-      <p>Already have an account? <a href="login.html">Login here</a></p>
+  <form id="signupForm" onsubmit="return validateSignUpForm();">
+    <h2>📝 Signup</h2>
+    <input type="text" id="fullname" placeholder="Full Name"/>
+    <div class="error" id="fullnameMessage"></div>
+
+    <input type="text" id="username" placeholder="Username"/>
+    <div class="error" id="usernameMessage"></div>
+
+    <input type="email" id="email" placeholder="Email"/>
+    <div class="error" id="emailMessage"></div>
+
+    <input type="tel" id="phone" placeholder="Phone Number"/>
+    <div class="error" id="phoneMessage"></div>
+
+    <input type="password" id="password" placeholder="Password"/>
+    <div class="error" id="passwordMessage"></div>
+
+    <input type="password" id="confirmPassword" placeholder="Confirm Password"/>
+    <div class="error" id="confirmMessage"></div>
+
+    <p>Already have an account? <a href="login.html">Login here</a></p>
     <button type="submit">Sign Up</button>
   </form>
 
+  <!-- Custom Popup -->
+  <div id="popupAlert" class="popup hidden">
+    <div class="popup-content">
+      <p id="popupMessage">Message goes here</p>
+      <button onclick="closePopup()">OK</button>
+    </div>
+  </div>
 </body>
 </html>
 
-<script>
-    document.getElementById("signupForm").addEventListener("submit", handleSignup);
-    function handleSignup(e) {
-      e.preventDefault();
-      
+
+
+  <script>
+    function showPopup(message) {
+      document.getElementById("popupMessage").textContent = message;
+      document.getElementById("popupAlert").classList.remove("hidden");
+    }
+
+    function closePopup() {
+      document.getElementById("popupAlert").classList.add("hidden");
+    }
+
+    function validateSignUpForm() {
       const fullname = document.getElementById("fullname").value.trim();
       const username = document.getElementById("username").value.trim();
       const email = document.getElementById("email").value.trim();
@@ -35,30 +63,75 @@
       const password = document.getElementById("password").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
 
-      //check if the password and confirm password match or not
-      if (password !== confirmPassword) {
-        alert("❌ Passwords do not match!");
-        return;
+      const nameRegex = /^(?!.*(\w)\1\1)[A-Za-z ]{3,20}$/;
+      const emailRegex = /^[a-zA-Z0-9._-]+@(gmail|yahoo|outlook)\.(com|in|org.np)$/;
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{6,20}$/;
+
+      // Full Name
+      if (fullname === "") {
+        showPopup("❌ Please enter your FullName");
+        return false;
+      } else if (!fullname.match(nameRegex)) {
+        showPopup("❌ Name must be 3–20 letters and not have triple repeating characters");
+        return false;
       }
-      // Check if the user data exist or not when user submit the form
+
+      // Username
+      if (username === "") {
+        showPopup("❌ Please enter your Username");
+        return false;
+      }else if (username.length < 3) {
+        showPopup("❌ Username must be at least 3 characters");
+        return false;
+      }
+
+      // Email
+      if (email === "") {
+        showPopup("❌ Please enter your E-mail");
+        return false;
+      }else if (!email.match(emailRegex)) {
+        showPopup("❌ Use a valid Gmail, Yahoo, or Outlook email");
+        return false;
+      }
+
+      // Phone
+      if (!/^\d{10}$/.test(phone)) {
+        showPopup("❌ Phone must be 10 digits");
+        return false;
+      } else if (!phone.startsWith("97") && !phone.startsWith("98")) {
+        showPopup("❌ Must start with 97 or 98");
+        return false;
+      }
+
+      // Password
+      if (!password.match(passwordRegex)) {
+        showPopup("❌ Must contain A-Z, a-z, 0-9, and symbol (6–20 chars)");
+        return false;
+      }
+
+      // Confirm Password
+      if (password !== confirmPassword) {
+        showPopup("❌ Passwords do not match");
+        return false;
+      }
+
       const storedUser = localStorage.getItem("userData");
       if (storedUser) {
         const existingUser = JSON.parse(storedUser);
         if (existingUser.username === username) {
-          alert("⚠️ Username already exists. Please log in.");
-          return;
+          showPopup("⚠️ Username already exists. Please log in.");
+          return false;
         }
       }
 
-      const userData = {
-        fullname,
-        username,
-        email,
-        phone,
-        password
-      };
+      const userData = { fullname, username, email, phone, password };
       localStorage.setItem("userData", JSON.stringify(userData));
-      alert("✅ Signup successful!");
-      window.location.href = "login.html";
+      showPopup("✅ Signup successful! Redirecting...");
+
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1500);
+
+      return false;
     }
-</script>
+  </script>

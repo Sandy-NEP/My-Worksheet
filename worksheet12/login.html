@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap">
   <title>🔐 Login</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -10,26 +11,46 @@
   
   <h2>🔐 Login</h2>
   <form id="loginForm">
-    <input type="text" id="loginUsername" placeholder="Username" required />
+    <input type="text" id="loginemail" placeholder="E-mail" required />
     <input type="password" id="loginPassword" placeholder="Password" required />
     <p>Don't have an account? <a href="signup.html">Signup here</a></p>
     <button type="submit">Login</button>
   </form>
-  
+
+  <!-- Glassmorphism Popup -->
+  <div id="popupAlert" class="popup hidden">
+    <div class="popup-content">
+      <p id="popupMessage">Login message here</p>
+      <button onclick="closePopup()">OK</button>
+    </div>
+  </div>
 </body>
 </html>
-<script>
+
+  <script>
+    function showPopup(message) {
+      document.getElementById("popupMessage").textContent = message;
+      document.getElementById("popupAlert").classList.remove("hidden");
+    }
+
+    function closePopup() {
+      document.getElementById("popupAlert").classList.add("hidden");
+    }
+
     document.getElementById("loginForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      const inputUsername = document.getElementById("loginUsername").value.trim();
+      const inputemail = document.getElementById("loginemail").value.trim();
       const inputPassword = document.getElementById("loginPassword").value;
 
       const savedData = JSON.parse(localStorage.getItem("userData"));
 
-      if (savedData && inputUsername === savedData.username && inputPassword === savedData.password) {
-        alert("🎉 Login successful! Welcome, " + savedData.fullname);
+      if (savedData && inputemail === savedData.email && inputPassword === savedData.password) {
+        showPopup("🎉 Login successful! Welcome, " + savedData.fullname);
+        setTimeout(() => {
+          window.location.href = "home.html"; // or dashboard.html if you have one
+        }, 1500);
       } else {
-        alert("❌ Invalid username or password.");
+        showPopup("❌ Invalid email or password.");
       }
     });
-</script>
+  </script>

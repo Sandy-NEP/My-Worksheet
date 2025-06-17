@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🏠 Welcome Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 30px 40px;
+      color: white;
+      text-align: center;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 8px 0;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-weight: bold;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.35);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="userContainer">
+    <h1>🏠 Welcome</h1>
+    <p>Loading your details...</p>
+  </div>
+
+</body>
+</html>
+
+<script>
+    const user = JSON.parse(localStorage.getItem("userData"));
+    const container = document.getElementById("userContainer");
+
+    if (user) {
+      container.innerHTML = `
+        <h1>👋 Hello, ${user.fullname}!</h1>
+        <p><strong>Username:</strong> ${user.username}</p>
+        <p><strong>Email:</strong> ${user.email}</p>
+        <p><strong>Phone:</strong> ${user.phone}</p>
+        <button onclick="logout()">🚪 Logout</button>
+      `;
+    } else {
+      container.innerHTML = `
+        <h2>⚠️ Access Denied</h2>
+        <p>Please login first.</p>
+        <button onclick="window.location.href='login.html'">Go to Login</button>
+      `;
+    }
+
+    function logout() {
+      localStorage.removeItem("userData");
+      window.location.href = "signup.html";
+    }
+  </script>
